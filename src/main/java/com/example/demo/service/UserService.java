@@ -29,7 +29,7 @@ public class UserService {
 	}
 
 
-	  public User loginUser(User user) {
+	  public User authenticate(User user) {
         try {
             User storedUser = userRepo.findByEmail(user.getEmail());
             if (storedUser != null && passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
@@ -53,6 +53,7 @@ public class UserService {
     }
 	  
 
+	/*
     public User getUserByEmail(String email) {
         try {
             return userRepo.findByEmail(email);
@@ -60,7 +61,7 @@ public class UserService {
             throw new RuntimeException("Failed to retrieve user by email: " + e.getMessage());
         }
     }
-	 
+	 */
 	
 	
 	
