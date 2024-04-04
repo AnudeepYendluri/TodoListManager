@@ -117,6 +117,18 @@ public class TodoController {
         }
     }
 	
+	
+	@GetMapping("/filter")
+	public ResponseEntity<List<TodoDTO>> filterTodos(@RequestParam(required = false) String priority,
+	                                                 @RequestParam(required = false) Boolean completed) {
+	    try {
+	        List<TodoDTO> filteredTodos = todoService.filterTodos(priority, completed);
+	        return ResponseEntity.ok(filteredTodos);
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    }
+	}
+	
 	/*
 	@PutMapping("/updatetodo/{id}")
     public ResponseEntity<String> updateTodo(@PathVariable int id, @RequestBody Todo todo) {

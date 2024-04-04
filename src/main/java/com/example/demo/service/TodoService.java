@@ -138,6 +138,26 @@ public class TodoService {
 
 	 
 	 
+	 public List<TodoDTO> filterTodos(String priority, Boolean completed) {
+	        List<Todo> filteredTodos;
+	        if (priority != null && completed != null) {
+	            filteredTodos = todoRepo.findByPriorityAndCompleted(priority, completed);
+	        } else if (priority != null) {
+	            // Filter by priority
+	            filteredTodos = todoRepo.findByPriority(priority);
+	        } else if (completed != null) {
+	            // Filter by completion status
+	            filteredTodos = todoRepo.findByCompleted(completed);
+	        } else {
+	            // No filtering criteria provided, return all todos
+	            filteredTodos = todoRepo.findAll();
+	        }
+	        return filteredTodos.stream()
+	                .map(todoMapper::todoEntityToDTO)
+	                .collect(Collectors.toList());
+	    }
+	 
+	 
 	 /*
 	 public List<Todo> getAllTodo(int userId) {
 	        try {

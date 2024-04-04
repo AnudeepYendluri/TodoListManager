@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +26,9 @@ public class Todo {
 	private String description;
 	@NotNull(message = "completed status cannot be null")	
 	private boolean completed;
+	
+	@Column
+	private String priority;
 	
 	
 	@ManyToOne

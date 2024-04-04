@@ -19,4 +19,6 @@ public class TodoDTO {
     private boolean completed;
     
     private Long user_id; // User id associated with this todo
+    
+    private String priority;
 }

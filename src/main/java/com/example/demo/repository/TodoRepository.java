@@ -30,7 +30,12 @@ public interface TodoRepository extends JpaRepository<Todo,Integer> {
 		);
 
 
-	List<Todo> findByUser(User user);
+	 	List<Todo> findByUser(User user);
 	 
+	 	List<Todo> findByPriorityAndCompleted(String priority,boolean completed);
+	
+	 	List<Todo> findByPriority(String priority);
+	
+	 	List<Todo> findByCompleted(boolean completed);
 	
 }
