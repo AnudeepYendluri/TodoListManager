@@ -138,25 +138,31 @@ public class TodoService {
 
 	 
 	 
-	 public List<TodoDTO> filterTodos(String priority, Boolean completed) {
-	        List<Todo> filteredTodos;
-	        if (priority != null && completed != null) {
-	            filteredTodos = todoRepo.findByPriorityAndCompleted(priority, completed);
-	        } else if (priority != null) {
-	            // Filter by priority
-	            filteredTodos = todoRepo.findByPriority(priority);
-	        } else if (completed != null) {
-	            // Filter by completion status
-	            filteredTodos = todoRepo.findByCompleted(completed);
-	        } else {
-	            // No filtering criteria provided, return all todos
-	            filteredTodos = todoRepo.findAll();
-	        }
-	        return filteredTodos.stream()
-	                .map(todoMapper::todoEntityToDTO)
-	                .collect(Collectors.toList());
-	    }
-	 
+	 public List<TodoDTO> filterTodos(int userId, String priority, Boolean completed) {
+		    try {
+		        User user = userRepo.findById(userId);
+		        if (user == null) {
+		            throw new RuntimeException("User not found with this id: " + userId);
+		        }
+
+		        List<Todo> filteredTodos;
+		        if (priority != null && completed != null) {
+		            filteredTodos = todoRepo.findByUserAndPriorityAndCompleted(user, priority, completed);
+		        } else if (priority != null) {
+		            filteredTodos = todoRepo.findByUserAndPriority(user, priority);
+		        } else if (completed != null) {
+		            filteredTodos = todoRepo.findByUserAndCompleted(user, completed);
+		        } else {
+		            filteredTodos = todoRepo.findByUser(user);
+		        }
+
+		        return filteredTodos.stream()
+		                .map(todoMapper::todoEntityToDTO)
+		                .collect(Collectors.toList());
+		    } catch (Exception e) {
+		        throw new RuntimeException("Failed to filter todos: " + e.getMessage());
+		    }
+		}
 	 
 	 /*
 	 public List<Todo> getAllTodo(int userId) {
